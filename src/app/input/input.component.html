@@ -1,0 +1,44 @@
+<mat-toolbar mat-tool-bar class="navbar">
+  <div class="brand">GitHub Search</div>
+  <mat-icon class="search-icon">search</mat-icon>
+  <div class="input-container">
+    <mat-form-field appearance="outline" class="search-input">
+      <mat-label>Search GitHub users:</mat-label>
+      <input #searchInput matInput type="text" placeholder="Enter username">
+    </mat-form-field>
+  </div>
+</mat-toolbar>
+
+<div class="container">
+  <ng-container *ngIf="!loading; else loadingTemplate">
+    <div *ngIf="users.length > 0; else noResults" class="user-card-container">
+      <div *ngFor="let user of users" class="user-card mat-elevation-z2">
+        <mat-card>
+          <mat-card-header>
+            <div mat-card-avatar class="avatar" [style.background-image]="'url(' + user.avatar_url + ')'"></div>
+            <mat-card-title>{{ user.login }}</mat-card-title>
+            <mat-card-subtitle>Type: {{ user.type }}</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <a [href]="'https://github.com/'+user.login">       
+              <button mat-raised-button color="primary">
+                Visit Profile
+              </button>
+            </a>
+            <!-- Include more details here as needed -->
+          </mat-card-content>
+        </mat-card>
+        <!-- User card content -->
+      </div>
+    </div>
+  </ng-container>
+  <ng-template #loadingTemplate>
+    <div class="loading-container">
+      <mat-spinner class="loading-spinner" diameter="50"></mat-spinner>
+    </div>
+  </ng-template>
+</div>
+
+<ng-template #noResults>
+  <div class="no-results">No users found</div>
+</ng-template>
